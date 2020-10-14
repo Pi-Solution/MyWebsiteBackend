@@ -1,0 +1,9 @@
+services:
+    custom_services.wire_pusher_services:
+        class: AppBundle\Services\WirePusherService
+        public: true
+        arguments: ['%wirePusher%']
+
+    factory.contact_message:
+        class: AppBundle\Factory\ContactMessageFactory
+        public: true
