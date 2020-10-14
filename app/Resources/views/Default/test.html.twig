@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <h1>test</h1>
+
+    <form action="/contact/form">
+
+        <input id="name" type="text" name="firstname">
+        <input id="lastname" type="text" name="lastname">
+        <input id="text" type="text" name="text">
+
+        <input type="submit" value="test">
+    </form>
+
+    <button onclick="test()">test</button>
+
+    <script>
+
+        function test(){
+
+            let name = document.getElementById('name')
+            let lastname = document.getElementById('lastname')
+            let text = document.getElementById('text')
+
+            let data = {
+
+                'full_name': name.value,
+                'email': lastname.value,
+                'message': text.value
+
+
+            }
+
+            fetch('http://api.petar-arandjic.loc/contact/form', {
+
+                // mode: 'no-cors',
+
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify(data)
+
+            }).then((response) => {
+
+                return response.text()
+
+            }).then((data) => {
+
+                console.log(data)
+
+            })
+        }
+
+
+
+
+
+
+    </script>
+
+</body>
+</html>
