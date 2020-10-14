@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 
 
 use Pimcore\Controller\FrontendController;
-use Pimcore\Model\DataObject\ContactMessage;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
