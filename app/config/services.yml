@@ -1,3 +1,5 @@
+imports:
+    - { resource: services/custom_services.yml }
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -26,3 +28,4 @@ services:
     AppBundle\CorsHandler\AllowOriginEventListener:
         tags:
             - { name: kernel.event_listener, event: kernel.response }
+        arguments: ['%corsAllowOrigin%']
