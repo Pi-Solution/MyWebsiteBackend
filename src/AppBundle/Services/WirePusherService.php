@@ -24,7 +24,7 @@ class WirePusherService
 
         $body =
             "?id=PMpHmpXLa&" .
-            "title=Website Contact Form&".
+            "title=petar-arandjic.com&".
             "message=".
                 $data['full_name'] . "%0D%0A" .
                 $data['email'] . "%0D%0A%0D%0A" .
