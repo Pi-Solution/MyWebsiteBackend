@@ -19,13 +19,18 @@ class ContactMessageFactory
         $contactMessage->setKey($data['email'] . date('c'));
         $contactMessage->setPublished(true);
         $savedContactMessage = $contactMessage->save();
+
         if ($savedContactMessage){
             $response = [
-                'saved' => true
+                'saved' => true,
+                'message' => 'Thank you for contacting me, I will reply as soon as possible'
             ];
         }else{
             $response = [
-                'saved' => false
+                'saved' => false,
+                'errors' => [
+                    'Please check you fields'
+                ]
             ];
         }
 
