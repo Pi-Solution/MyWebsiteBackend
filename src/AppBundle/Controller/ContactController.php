@@ -8,18 +8,16 @@ use Pimcore\Controller\FrontendController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Pimcore\Config\Config;
 
 class ContactController extends FrontendController
 {
 
     /**
-     * @param \Pimcore\Config\Config $websiteConfig
      * @param Request $request
      * @return Response
      * @Route("/contact/form")
      */
-    public function formAction(Config $websiteConfig, Request $request){
+    public function formAction(Request $request){
 
         if ($request->server->get('HTTP_ORIGIN') != $this->container->getParameter('corsAllowOrigin')){
 
@@ -27,16 +25,30 @@ class ContactController extends FrontendController
 
         }
 
-        $contactMessageFactory = $this->get('factory.contact_message');
+        $data = json_decode($request->getContent(), true);
 
-        $response = $contactMessageFactory->create(json_decode($request->getContent(), true));
+        $googleReCaptchaValidator = $this->get('validation.google_recaptcha_validatior');
 
-        if ($response['saved']){
+        if ($googleReCaptchaValidator->validate($data['reQapToken'])){
 
-            $pushNotification = $this->get('custom_services.wire_pusher_services');
+            $contactMessageFactory = $this->get('factory.contact_message');
 
-            $pushNotification->pushNotification(json_decode($request->getContent(),true));
+            $response = $contactMessageFactory->create($data);
 
+            if ($response['saved']){
+
+                $pushNotification = $this->get('custom_services.wire_pusher_services');
+
+                $pushNotification->pushNotification($data);
+
+            }
+        } else {
+            $response = [
+                'saved' => false,
+                'errors' => [
+                    'reCaptcha Error'
+                ]
+            ];
         }
 
         return new Response(

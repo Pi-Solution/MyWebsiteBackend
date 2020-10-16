@@ -1,0 +1,5 @@
+services:
+    validation.google_recaptcha_validatior:
+        class: AppBundle\Validation\GoogleReCaptchaValidator
+        public: true
+        arguments: ['%googleReCaptcha%']
