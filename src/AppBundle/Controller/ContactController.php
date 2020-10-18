@@ -15,7 +15,7 @@ class ContactController extends FrontendController
     /**
      * @param Request $request
      * @return Response
-     * @Route("/contact/form" methods={"POST"})
+     * @Route("/contact/form", methods={"POST"})
      */
     public function formAction(Request $request){
 
