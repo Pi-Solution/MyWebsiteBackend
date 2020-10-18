@@ -15,14 +15,15 @@ class ContactController extends FrontendController
     /**
      * @param Request $request
      * @return Response
-     * @Route("/contact/form")
+     * @Route("/contact/form" methods={"POST"})
      */
     public function formAction(Request $request){
-        if ($request->server->get('HTTPS_ORIGIN') != $this->container->getParameter('corsAllowOrigin')){
 
-            return new Response('', 403);
-
-        }
+//        if ($request->server->get('HTTPS_ORIGIN') != $this->container->getParameter('corsAllowOrigin')){
+//
+//            return new Response('', 403);
+//
+//        }
 
         $data = json_decode($request->getContent(), true);
 
@@ -66,12 +67,12 @@ class ContactController extends FrontendController
 
     }
 
-    /**
-     * @Route("/contact/test")
-     */
-    public function test(){
-
-        return $this->render('Default/test.html.twig');
-
-    }
+//    /**
+//     * @Route("/contact/test")
+//     */
+//    public function test(){
+//
+//        return $this->render('Default/test.html.twig');
+//
+//    }
 }
