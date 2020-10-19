@@ -19,24 +19,23 @@ class ContactController extends FrontendController
      */
     public function formAction(Request $request){
 
-//        if ($request->server->get('HTTPS_ORIGIN') != $this->container->getParameter('corsAllowOrigin')){
-//
-//            return new Response('', 403);
-//
-//        }
-
         $data = json_decode($request->getContent(), true);
 
-        $googleReCaptchaValidator = $this->get('validation.google_recaptcha_validatior');
+        # Validate reCaptcha
+        $googleReCaptchaValidator = $this->get('validation.google_recaptcha_validator');
 
-        if ($googleReCaptchaValidator->validate($data['reQapToken'])){
+        $googleReCaptchaValidatorResponse = $googleReCaptchaValidator->validate($data['reQapToken']);
 
+        if ($googleReCaptchaValidatorResponse['success']){
+
+            # Save message
             $contactMessageFactory = $this->get('factory.contact_message');
 
             $response = $contactMessageFactory->create($data);
 
             if ($response['saved']){
 
+                # Send notification
                 $pushNotification = $this->get('custom_services.wire_pusher_services');
 
                 $pushNotification->pushNotification($data);
